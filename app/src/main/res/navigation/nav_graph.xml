@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/usersFragment">
+
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.platformcommons.app.ui.users.UsersFragment"
+        android:label="UsersFragment" >
+        <action
+            android:id="@+id/action_usersFragment_to_addUserFragment"
+            app:destination="@id/addUserFragment" />
+        <action
+            android:id="@+id/action_usersFragment_to_moviesFragment"
+            app:destination="@id/moviesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addUserFragment"
+        android:name="com.platformcommons.app.ui.users.AddUserFragment"
+        android:label="AddUserFragment" />
+    <fragment
+        android:id="@+id/moviesFragment"
+        android:name="com.platformcommons.app.ui.movies.MoviesFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_movies" >
+        <action
+            android:id="@+id/action_moviesFragment_to_moviesDetailsFragment"
+            app:destination="@id/moviesDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/moviesDetailsFragment"
+        android:name="com.platformcommons.app.ui.movies.MoviesDetailsFragment"
+        android:label="fragment_movies_details"
+        tools:layout="@layout/fragment_movies_details" >
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+    </fragment>
+</navigation>

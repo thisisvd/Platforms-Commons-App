@@ -1,0 +1,77 @@
+package com.platformcommons.app.di
+
+import com.platformcommons.app.api.UsersApi
+import com.platformcommons.app.api.UsersApiHelper
+import com.platformcommons.app.api.UsersApiImpl
+import com.platformcommons.app.api.movies.MoviesApi
+import com.platformcommons.app.api.movies.MoviesApiHelper
+import com.platformcommons.app.api.movies.MoviesApiImpl
+import com.platformcommons.app.ui.movies.pagination.MoviesPagingSource
+import com.platformcommons.app.ui.users.pagination.UsersPagingSource
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class) // Use SingletonComponent if it should be a singleton
+object NetworkModules {
+
+    @Singleton
+    @Provides
+    fun provideOkHttpClient() = if ("BuildConfig.DEBUG" == "BuildConfig.DEBUG") {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+    } else {
+        OkHttpClient.Builder().build()
+    }
+
+    @Singleton
+    @Provides
+    @Named("Users")
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("https://reqres.in/api/").client(okHttpClient).build()
+
+    @Provides
+    fun provideApiInterface(@Named("Users") retrofit: Retrofit): UsersApi =
+        retrofit.create(UsersApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideApiHelper(apiHelper: UsersApiImpl): UsersApiHelper = apiHelper
+
+    @Provides
+    @Singleton
+    fun provideUserPagingSource(apiHelper: UsersApiImpl): UsersPagingSource {
+        return UsersPagingSource(apiHelper)
+    }
+
+    @Singleton
+    @Provides
+    @Named("Movies")
+    fun provideMoviesRetrofit(okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("https://api.themoviedb.org/3/").client(okHttpClient).build()
+
+    @Provides
+    fun provideMoviesApiInterface(@Named("Movies") retrofit: Retrofit): MoviesApi =
+        retrofit.create(MoviesApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMoviesApiApiHelper(apiHelper: MoviesApiImpl): MoviesApiHelper = apiHelper
+
+    @Provides
+    @Singleton
+    fun provideMoviesPagingSource(apiHelper: MoviesApiImpl): MoviesPagingSource {
+        return MoviesPagingSource(apiHelper)
+    }
+}
