@@ -4,6 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.google.gson.Gson
+import com.platformcommons.app.data.local.UserDao
+import com.platformcommons.app.data.local.User
 import com.platformcommons.app.network.users.UsersApiImpl
 import com.platformcommons.app.model.users.NewUser
 import com.platformcommons.app.model.users.Data
@@ -21,7 +23,9 @@ import javax.inject.Singleton
 
 @Singleton
 class UsersRepository @Inject constructor(
-    private val apiImpl: UsersApiImpl, private val networkUtils: NetworkUtils
+    private val apiImpl: UsersApiImpl,
+    private val networkUtils: NetworkUtils,
+    private val dao: UserDao
 ) {
 
     fun getUsers(): Flow<PagingData<Data>> {
@@ -33,18 +37,15 @@ class UsersRepository @Inject constructor(
     suspend fun addUser(request: NewUser): Response<NewUserResponse> {
         return if (networkUtils.isNetworkAvailable()) {
             try {
-                Timber.d("error1")
                 val response = apiImpl.addUser(request)
                 response
             } catch (exception: Exception) {
-                Timber.d("error2: ${exception.message}")
                 saveToLocalDatabase(request)
                 Response.error(
                     500, "Internal Server Error".toResponseBody("text/plain".toMediaTypeOrNull())
                 )
             }
         } else {
-            Timber.d("error3")
             saveToLocalDatabase(request)
             Response.error(
                 500,
@@ -53,7 +54,8 @@ class UsersRepository @Inject constructor(
         }
     }
 
-    private fun saveToLocalDatabase(request: NewUser) {
+    private suspend fun saveToLocalDatabase(request: NewUser) {
         Timber.d("SAVE IN DB ${Gson().toJson(request)}")
+        dao.insertUser(User(name = request.name, job = request.job))
     }
 }

@@ -7,6 +7,7 @@ object Constants {
     const val MOVIES_API_URL = "https://api.themoviedb.org/3/"
     const val TEMP_IMAGE_URL = "https://image.tmdb.org/t/p/w185"
 
-    //
-    var IS_USERS_LISTS_FETCHED_FIRST = false
+    // user database const
+    const val USER_DATABASE = "user_database"
+    const val USER_TABLE = "user_table"
 }
