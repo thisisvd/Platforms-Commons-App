@@ -10,12 +10,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.snackbar.Snackbar
+import com.platformcommons.app.R
 import com.platformcommons.app.databinding.FragmentMoviesDetailsBinding
 import com.platformcommons.app.model.movies.MoviesDetailsResponse
+import com.platformcommons.app.utils.Constants.TEMP_IMAGE_URL
 import com.platformcommons.app.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @AndroidEntryPoint
 class MoviesDetailsFragment : Fragment() {
@@ -66,6 +72,8 @@ class MoviesDetailsFragment : Fragment() {
                                 Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show()
                             }
                             progressCircular.visibility = View.GONE
+                            movieDescriptionTv.visibility = View.GONE
+                            movieDescLinearLayout.visibility = View.GONE
                         }
                     }
                 }
@@ -77,11 +85,24 @@ class MoviesDetailsFragment : Fragment() {
         binding.apply {
             moviesDetails.apply {
 
+                poster_path.let {
+                    Glide.with(root).load("$TEMP_IMAGE_URL$it")
+                        .transition(DrawableTransitionOptions.withCrossFade()).into(movieImage)
+                }
+
+                movieDescriptionTv.visibility = View.VISIBLE
                 movieTitle.text = title
+                movieDescLinearLayout.visibility = View.VISIBLE
+                rateTv.text = root.context.getString(R.string.rate_format_str, vote_average)
+                movieDescription.text = this.overview
 
-                movieDescription.text = "Description"
-
-                movieReleaseDate.text = release_date
+                val date =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(release_date)?.let {
+                        SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(
+                            it
+                        )
+                    }
+                movieReleaseDate.text = requireContext().getString(R.string.release_date, date)
             }
         }
     }

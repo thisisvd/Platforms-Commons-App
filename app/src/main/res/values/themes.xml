@@ -12,4 +12,9 @@
     <style name="RoundedSquare">
         <item name="cornerSize">12%</item>
     </style>
+
+    <style name="InputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+    </style>
+
 </resources>

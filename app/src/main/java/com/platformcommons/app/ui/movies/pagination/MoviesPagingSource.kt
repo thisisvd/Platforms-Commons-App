@@ -1,10 +1,10 @@
 package com.platformcommons.app.ui.movies.pagination
 
-import androidx.core.content.ContextCompat
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.platformcommons.app.api.movies.MoviesApiImpl
+import com.platformcommons.app.network.movies.MoviesApiImpl
 import com.platformcommons.app.model.movies.MoviesResult
+import timber.log.Timber
 import javax.inject.Inject
 
 class MoviesPagingSource @Inject constructor(
@@ -31,11 +31,9 @@ class MoviesPagingSource @Inject constructor(
                         } else (position + 1)
                     )
                 }
-
-                LoadResult.Error(throw Exception("No Response"))
-            } else {
-                LoadResult.Error(throw Exception("No Response"))
             }
+
+            LoadResult.Error(throw Exception("No Response"))
         } catch (e: Exception) {
             LoadResult.Error(e)
         }

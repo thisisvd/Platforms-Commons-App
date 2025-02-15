@@ -1,8 +1,8 @@
-package com.platformcommons.app.api.users
+package com.platformcommons.app.network.users
 
-import com.platformcommons.app.model.AddUser
-import com.platformcommons.app.model.AddUserResponse
-import com.platformcommons.app.model.UsersResponse
+import com.platformcommons.app.model.users.NewUser
+import com.platformcommons.app.model.users.NewUserResponse
+import com.platformcommons.app.model.users.UsersResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -16,8 +16,8 @@ interface UsersApi {
         @Query("page") pageNumber: Int = 1
     ): Response<UsersResponse>
 
-    @POST
+    @POST("users")
     suspend fun addUser(
-        @Body request: AddUser
-    ): Response<AddUserResponse>
+        @Body request: NewUser
+    ): Response<NewUserResponse>
 }

@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.platformcommons.app.R
-import com.platformcommons.app.databinding.UserItemUiBinding
-import com.platformcommons.app.model.Data
+import com.platformcommons.app.databinding.MovieItemUiBinding
 import com.platformcommons.app.model.movies.MoviesResult
+import com.platformcommons.app.utils.Constants.TEMP_IMAGE_URL
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MoviesPagingAdapter :
     PagingDataAdapter<MoviesResult, MoviesPagingAdapter.ViewHolder>(MoviesListDiffCallback()) {
@@ -41,17 +43,25 @@ class MoviesPagingAdapter :
         return ViewHolder.from(parent)
     }
 
-    class ViewHolder private constructor(private val binding: UserItemUiBinding) :
+    class ViewHolder private constructor(private val binding: MovieItemUiBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movieData: MoviesResult?, onItemClickListener: ((Int) -> Unit)?) {
             binding.apply {
                 movieData?.let { movie ->
-//                    user.avatar.let {
-//                        Glide.with(root).load(user.avatar)
-//                            .transition(DrawableTransitionOptions.withCrossFade()).into(avatarImage)
-//                    }
+                    movie.poster_path.let {
+                        Glide.with(root).load("$TEMP_IMAGE_URL$it")
+                            .transition(DrawableTransitionOptions.withCrossFade()).into(movieImage)
+                    }
 
-                    userNameTv.text = movie.title
+                    movieName.text = movie.title
+
+                    val date =
+                        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(movie.release_date)?.let {
+                            SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(
+                                it
+                            )
+                        }
+                    movieReleaseDate.text = root.context.getString(R.string.release_date, date)
 
                     root.setOnClickListener {
                         onItemClickListener?.let { it(movie.id) }
@@ -63,7 +73,7 @@ class MoviesPagingAdapter :
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = UserItemUiBinding.inflate(layoutInflater, parent, false)
+                val binding = MovieItemUiBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }

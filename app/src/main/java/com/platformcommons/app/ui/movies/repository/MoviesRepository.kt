@@ -1,9 +1,9 @@
-package com.platformcommons.app.ui.movies
+package com.platformcommons.app.ui.movies.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.platformcommons.app.api.movies.MoviesApiImpl
+import com.platformcommons.app.network.movies.MoviesApiImpl
 import com.platformcommons.app.model.movies.MoviesResult
 import com.platformcommons.app.ui.movies.pagination.MoviesPagingSource
 import com.platformcommons.app.ui.movies.pagination.MoviesPagingSource.Companion.MOVIES_LIST_TOTAL_PAGES

@@ -1,6 +1,6 @@
-package com.platformcommons.app.model
+package com.platformcommons.app.model.users
 
-data class AddUserResponse(
+data class NewUserResponse(
     val createdAt: String,
     val id: String,
     val job: String,

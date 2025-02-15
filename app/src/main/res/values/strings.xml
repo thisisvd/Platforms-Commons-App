@@ -3,8 +3,14 @@
 
     <string name="avatar_image">Avatar Image</string>
     <string name="user_name_str">%s %s</string>
+    <string name="rate_format_str">%.1f</string>
     <string name="add_user">Add User</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="movie_poster">Movie Poster</string>
+    <string name="description">Description : </string>
+    <string name="release_date">Released on %s</string>
+    <string name="enter_user_name">Enter user name</string>
+    <string name="enter_user_job">Enter user job</string>
+    <string name="join_or_add_new_user">Join or Add New User!</string>
 </resources>

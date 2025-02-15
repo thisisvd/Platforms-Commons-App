@@ -6,9 +6,9 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.platformcommons.app.model.movies.MoviesDetailsResponse
 import com.platformcommons.app.model.movies.MoviesResult
+import com.platformcommons.app.ui.movies.repository.MoviesRepository
 import com.platformcommons.app.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,8 +20,14 @@ class MoviesViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    fun getMoviesList(): Flow<PagingData<MoviesResult>> =
-        moviesRepository.getMoviesList().cachedIn(viewModelScope)
+    private val _moviesListData = MutableStateFlow<PagingData<MoviesResult>?>(null)
+    val moviesListData: StateFlow<PagingData<MoviesResult>?> = _moviesListData
+
+    fun getMoviesList() = viewModelScope.launch {
+        moviesRepository.getMoviesList().cachedIn(viewModelScope).collect { pagingData ->
+            _moviesListData.emit(pagingData)
+        }
+    }
 
     private val _movieDetails =
         MutableStateFlow<Resource<MoviesDetailsResponse>>(Resource.Loading())
@@ -29,7 +35,8 @@ class MoviesViewModel @Inject constructor(
 
     fun getMoviesDetails(movieId: Int) = viewModelScope.launch {
         _movieDetails.emit(Resource.Loading())
-        val response = moviesRepository.getMoviesDetails(movieId, "b78dc7d57b8dded294cbc83a4f80c9ae")
+        val response =
+            moviesRepository.getMoviesDetails(movieId, "b78dc7d57b8dded294cbc83a4f80c9ae")
         _movieDetails.emit(handleMoviesDetailsResponse(response))
     }
 

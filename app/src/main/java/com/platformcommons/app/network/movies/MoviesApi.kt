@@ -1,6 +1,5 @@
-package com.platformcommons.app.api.movies
+package com.platformcommons.app.network.movies
 
-import com.platformcommons.app.model.UsersResponse
 import com.platformcommons.app.model.movies.MoviesDetailsResponse
 import com.platformcommons.app.model.movies.MoviesResponse
 import retrofit2.Response

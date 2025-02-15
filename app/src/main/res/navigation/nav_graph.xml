@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/usersFragment"
         android:name="com.platformcommons.app.ui.users.UsersFragment"
-        android:label="UsersFragment" >
+        android:label="Users">
         <action
             android:id="@+id/action_usersFragment_to_addUserFragment"
             app:destination="@id/addUserFragment" />
@@ -19,12 +19,12 @@
     <fragment
         android:id="@+id/addUserFragment"
         android:name="com.platformcommons.app.ui.users.AddUserFragment"
-        android:label="AddUserFragment" />
+        android:label="" />
     <fragment
         android:id="@+id/moviesFragment"
         android:name="com.platformcommons.app.ui.movies.MoviesFragment"
-        android:label="fragment_movies"
-        tools:layout="@layout/fragment_movies" >
+        android:label="Movies"
+        tools:layout="@layout/fragment_movies">
         <action
             android:id="@+id/action_moviesFragment_to_moviesDetailsFragment"
             app:destination="@id/moviesDetailsFragment" />
@@ -32,8 +32,8 @@
     <fragment
         android:id="@+id/moviesDetailsFragment"
         android:name="com.platformcommons.app.ui.movies.MoviesDetailsFragment"
-        android:label="fragment_movies_details"
-        tools:layout="@layout/fragment_movies_details" >
+        android:label="Movie Details"
+        tools:layout="@layout/fragment_movies_details">
         <argument
             android:name="movieId"
             app:argType="integer" />

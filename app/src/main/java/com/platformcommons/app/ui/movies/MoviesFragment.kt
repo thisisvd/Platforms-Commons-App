@@ -28,6 +28,12 @@ class MoviesFragment : Fragment() {
 
     private val viewModel: MoviesViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // will call user api once
+        viewModel.getMoviesList()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -45,10 +51,12 @@ class MoviesFragment : Fragment() {
 
     private fun initViewModels() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getMoviesList().flowWithLifecycle(
+            viewModel.moviesListData.flowWithLifecycle(
                 viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED
             ).collect { response ->
-                moviesPagingAdapter.submitData(response)
+                response?.let {
+                    moviesPagingAdapter.submitData(response)
+                }
             }
         }
     }

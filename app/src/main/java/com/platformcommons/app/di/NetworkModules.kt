@@ -1,16 +1,22 @@
 package com.platformcommons.app.di
 
-import com.platformcommons.app.api.UsersApi
-import com.platformcommons.app.api.UsersApiHelper
-import com.platformcommons.app.api.UsersApiImpl
-import com.platformcommons.app.api.movies.MoviesApi
-import com.platformcommons.app.api.movies.MoviesApiHelper
-import com.platformcommons.app.api.movies.MoviesApiImpl
+import android.content.Context
+import com.platformcommons.app.BuildConfig
+import com.platformcommons.app.network.movies.MoviesApi
+import com.platformcommons.app.network.movies.MoviesApiHelper
+import com.platformcommons.app.network.movies.MoviesApiImpl
+import com.platformcommons.app.network.users.UsersApi
+import com.platformcommons.app.network.users.UsersApiHelper
+import com.platformcommons.app.network.users.UsersApiImpl
 import com.platformcommons.app.ui.movies.pagination.MoviesPagingSource
 import com.platformcommons.app.ui.users.pagination.UsersPagingSource
+import com.platformcommons.app.utils.Constants.MOVIES_API_URL
+import com.platformcommons.app.utils.Constants.USER_API_URL
+import com.platformcommons.app.utils.NetworkUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,12 +26,12 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class) // Use SingletonComponent if it should be a singleton
+@InstallIn(SingletonComponent::class)
 object NetworkModules {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient() = if ("BuildConfig.DEBUG" == "BuildConfig.DEBUG") {
+    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
@@ -38,7 +44,7 @@ object NetworkModules {
     @Named("Users")
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://reqres.in/api/").client(okHttpClient).build()
+            .baseUrl(USER_API_URL).client(okHttpClient).build()
 
     @Provides
     fun provideApiInterface(@Named("Users") retrofit: Retrofit): UsersApi =
@@ -59,7 +65,7 @@ object NetworkModules {
     @Named("Movies")
     fun provideMoviesRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://api.themoviedb.org/3/").client(okHttpClient).build()
+            .baseUrl(MOVIES_API_URL).client(okHttpClient).build()
 
     @Provides
     fun provideMoviesApiInterface(@Named("Movies") retrofit: Retrofit): MoviesApi =
@@ -73,5 +79,11 @@ object NetworkModules {
     @Singleton
     fun provideMoviesPagingSource(apiHelper: MoviesApiImpl): MoviesPagingSource {
         return MoviesPagingSource(apiHelper)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkUtils(@ApplicationContext context: Context): NetworkUtils {
+        return NetworkUtils(context)
     }
 }

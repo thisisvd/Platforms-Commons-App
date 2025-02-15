@@ -9,12 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.platformcommons.app.R
 import com.platformcommons.app.databinding.FragmentUsersBinding
-import com.platformcommons.app.ui.UsersViewModel
 import com.platformcommons.app.ui.users.pagination.UsersPagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -22,12 +22,21 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
 
+    // view binding
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
 
+    // paging adapter
     private lateinit var usersPagingAdapter: UsersPagingAdapter
 
+    // view models
     private val viewModel: UsersViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // will call user api once
+        viewModel.getUsersList()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -42,22 +51,29 @@ class UsersFragment : Fragment() {
             initViewModels()
             setupUsersList()
             fab.setOnClickListener {
-                findNavController().navigate(R.id.action_usersFragment_to_addUserFragment)
+                val extras = FragmentNavigatorExtras(fab to "shared_element_container")
+                findNavController().navigate(
+                    R.id.action_usersFragment_to_addUserFragment, null, null, extras
+                )
             }
         }
     }
 
+    // initialized view model
     private fun initViewModels() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getUsers().flowWithLifecycle(
+            viewModel.userList.flowWithLifecycle(
                 viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED
             ).collect { response ->
-                usersPagingAdapter.submitData(response)
+                response?.let {
+                    usersPagingAdapter.submitData(response)
+                }
             }
-        }
 
+        }
     }
 
+    // setup adapter lists
     private fun setupUsersList() {
         binding.apply {
             usersPagingAdapter = UsersPagingAdapter()

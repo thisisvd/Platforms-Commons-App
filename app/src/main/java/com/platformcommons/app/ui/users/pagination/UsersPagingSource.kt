@@ -2,9 +2,8 @@ package com.platformcommons.app.ui.users.pagination
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.platformcommons.app.api.UsersApiImpl
-import com.platformcommons.app.model.Data
-import com.platformcommons.app.model.UsersResponse
+import com.platformcommons.app.network.users.UsersApiImpl
+import com.platformcommons.app.model.users.Data
 import javax.inject.Inject
 
 class UsersPagingSource @Inject constructor(

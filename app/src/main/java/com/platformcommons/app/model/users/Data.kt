@@ -1,4 +1,4 @@
-package com.platformcommons.app.model
+package com.platformcommons.app.model.users
 
 data class Data(
     val avatar: String,
