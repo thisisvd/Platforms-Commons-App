@@ -6,7 +6,7 @@ import com.platformcommons.app.utils.Constants.USER_TABLE
 
 @Entity(tableName = USER_TABLE)
 data class User(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val job: String,
     val name: String,
     val syncState: Boolean = false

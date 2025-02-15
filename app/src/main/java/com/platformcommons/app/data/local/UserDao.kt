@@ -11,11 +11,11 @@ import kotlinx.coroutines.flow.Flow
 interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertUser(user: User)
+    suspend fun insertUser(user: User): Long
 
     @Delete
     suspend fun deleteUser(user: User)
 
-    @Query("SELECT * FROM USER_TABLE")
+    @Query("SELECT * FROM USER_TABLE LIMIT 1")
     fun getAllUsers(): Flow<List<User>>
 }
