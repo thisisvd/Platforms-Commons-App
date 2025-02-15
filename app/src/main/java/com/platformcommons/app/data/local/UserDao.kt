@@ -13,8 +13,8 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertUser(user: User): Long
 
-    @Delete
-    suspend fun deleteUser(user: User)
+    @Query("DELETE FROM USER_TABLE WHERE userId=:userId")
+    suspend fun deleteUser(userId: Int)
 
     @Query("SELECT * FROM USER_TABLE LIMIT 1")
     fun getAllUsers(): Flow<List<User>>

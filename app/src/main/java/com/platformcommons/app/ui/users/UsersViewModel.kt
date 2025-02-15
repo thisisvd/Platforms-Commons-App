@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
-import com.platformcommons.app.model.users.NewUser
+import com.platformcommons.app.data.local.User
 import com.platformcommons.app.model.users.Data
 import com.platformcommons.app.model.users.NewUserResponse
 import com.platformcommons.app.ui.users.repository.UsersRepository
@@ -37,7 +37,7 @@ class UsersViewModel @Inject constructor(
     private val _userDetails = MutableStateFlow<Resource<NewUserResponse>?>(null)
     val userDetails: StateFlow<Resource<NewUserResponse>?> = _userDetails
 
-    fun addUser(user: NewUser) = viewModelScope.launch {
+    fun addUser(user: User) = viewModelScope.launch {
         _userDetails.emit(Resource.Loading())
         val response = usersRepository.addUser(user)
         _userDetails.emit(handleUsersResponse(response))

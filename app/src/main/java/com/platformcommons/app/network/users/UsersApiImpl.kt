@@ -1,6 +1,6 @@
 package com.platformcommons.app.network.users
 
-import com.platformcommons.app.model.users.NewUser
+import com.platformcommons.app.data.local.User
 import com.platformcommons.app.model.users.NewUserResponse
 import com.platformcommons.app.model.users.UsersResponse
 import retrofit2.Response
@@ -12,5 +12,5 @@ class UsersApiImpl @Inject constructor(
 
     override suspend fun getUsers(page: Int): Response<UsersResponse> = api.getUsers(page)
 
-    override suspend fun addUser(request: NewUser): Response<NewUserResponse> = api.addUser(request)
+    override suspend fun addUser(user: User): Response<NewUserResponse> = api.addUser(user)
 }

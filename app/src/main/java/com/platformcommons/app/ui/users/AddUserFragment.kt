@@ -15,8 +15,8 @@ import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.platformcommons.app.R
+import com.platformcommons.app.data.local.User
 import com.platformcommons.app.databinding.FragmentAddUserBinding
-import com.platformcommons.app.model.users.NewUser
 import com.platformcommons.app.utils.NetworkUtils
 import com.platformcommons.app.utils.Resource
 import com.platformcommons.app.worker.SyncWorker
@@ -55,8 +55,9 @@ class AddUserFragment : Fragment() {
             addUser.setOnClickListener {
                 if (!userNameTv.text.isNullOrEmpty() && !userJobTv.text.isNullOrEmpty()) {
                     viewModel.addUser(
-                        NewUser(
-                            userNameTv.text.toString(), userJobTv.text.toString()
+                        User(
+                            name = userNameTv.text.toString(),
+                            job = userJobTv.text.toString(),
                         )
                     )
                 } else {
@@ -80,7 +81,7 @@ class AddUserFragment : Fragment() {
                         }
 
                         is Resource.Success -> {
-                            response.data?.let { movieData ->
+                            response.data?.let {
                                 Snackbar.make(
                                     root, "Successful User Created!", Snackbar.LENGTH_LONG
                                 ).show()
