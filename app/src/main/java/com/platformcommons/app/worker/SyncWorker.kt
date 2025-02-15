@@ -6,9 +6,16 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.platformcommons.app.data.local.UserDao
+import com.platformcommons.app.network.users.UsersApiImpl
 import com.platformcommons.app.utils.NetworkUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,7 +24,8 @@ class SyncWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val dao: UserDao,
-    private val networkUtils: NetworkUtils
+    private val networkUtils: NetworkUtils,
+    private val apiImpl: UsersApiImpl
 ) : Worker(context, params) {
 
     override fun doWork(): Result {
@@ -28,16 +36,15 @@ class SyncWorker @AssistedInject constructor(
 
         return try {
 
-            Timber.d("Worker started working!")
+            Timber.d("Worker STARTED WORKING!")
 
-//            val unSyncData = myDataDao.getUnsyncedData()
-//
-//            val success = syncWithServer(unsyncedData)
-//
-//            if (success) {
-//                // Mark the data as synced in Room
-//                myDataDao.markDataAsSynced(unsyncedData)
-//            }
+            CoroutineScope(Dispatchers.IO).launch {
+                val result = userSyncing()
+
+                if (!result) {
+                    Result.retry()
+                }
+            }
 
             Result.success()
         } catch (e: Exception) {
@@ -46,9 +53,27 @@ class SyncWorker @AssistedInject constructor(
         }
     }
 
-//    private fun syncWithServer(data: List<MyData>): Boolean {
-//        // Simulate a network call to sync with the server
-//        // Replace with actual network syncing logic
-//        return true
-//    }
+    private suspend fun userSyncing(): Boolean {
+
+        var syncingSuccess = true
+
+        dao.getAllUsers().collect { unSyncedUsers ->
+            if (networkUtils.isNetworkAvailable()) {
+                unSyncedUsers.forEach { user ->
+                    try {
+                        val response = apiImpl.addUser(user)
+                        if (response.isSuccessful) {
+                            response.body()?.let {
+                                dao.deleteUser(it.userId)
+                            }
+                        }
+                    } catch (exception: Exception) {
+                        syncingSuccess = false
+                    }
+                }
+            }
+        }
+
+        return syncingSuccess
+    }
 }

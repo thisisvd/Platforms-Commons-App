@@ -59,31 +59,6 @@ class UsersRepository @Inject constructor(
         }
     }
 
-    suspend fun userSyncing(): Boolean {
-
-        var syncingFailed = false
-
-        dao.getAllUsers().collect{ unSyncedUsers ->
-            if (networkUtils.isNetworkAvailable()) {
-                unSyncedUsers.forEach { user ->
-                    try {
-                        val response = apiImpl.addUser(user)
-                        if (response.isSuccessful) {
-                            response.body()?.let {
-//                            dao.deleteUser(it.userId)
-                                Timber.d("DELETE USER : ${it.userId} :  ${it.name}")
-                            }
-                        }
-                    } catch (exception: Exception) {
-                        syncingFailed = true
-                    }
-                }
-            }
-        }
-
-        return !syncingFailed
-    }
-
     private suspend fun saveToLocalDatabase(user: User) {
         val result = dao.insertUser(user)
         if (result > 0) {
