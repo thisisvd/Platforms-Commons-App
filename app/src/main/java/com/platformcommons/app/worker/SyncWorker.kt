@@ -7,22 +7,20 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.platformcommons.app.data.local.UserDao
 import com.platformcommons.app.utils.NetworkUtils
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltWorker
-//class SyncWorker @Inject constructor(
 class SyncWorker @AssistedInject constructor(
-    private val context: Context,
-    workerParams: WorkerParameters,
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
     private val dao: UserDao,
     private val networkUtils: NetworkUtils
-) : Worker(context, workerParams) {
+) : Worker(context, params) {
 
     override fun doWork(): Result {
-
-        Timber.d("Worker do WORK!")
 
         if (!networkUtils.isNetworkAvailable()) {
             return Result.retry()
@@ -53,5 +51,4 @@ class SyncWorker @AssistedInject constructor(
 //        // Replace with actual network syncing logic
 //        return true
 //    }
-
 }

@@ -16,7 +16,6 @@ class SyncWorkerFactory @Inject constructor(
     override fun createWorker(
         appContext: Context, workerClassName: String, workerParameters: WorkerParameters
     ): ListenableWorker {
-        Timber.d("CreateWorker Reached!")
         return SyncWorker(appContext, workerParameters, dao, networkUtils)
     }
 }

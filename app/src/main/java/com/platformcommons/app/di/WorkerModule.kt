@@ -19,29 +19,29 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object WorkerModule {
 
-    @Provides
-    @Singleton
-    fun provideWorkerFactory(
-        dao: UserDao, networkUtils: NetworkUtils
-    ): WorkerFactory {
-        return SyncWorkerFactory(dao, networkUtils)
-    }
-
-    @Provides
-    fun provideWorkManager(
-        @ApplicationContext context: Context,
-        workerFactory: WorkerFactory
-    ): WorkManager {
-        val configuration = Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
-        return WorkManager.initialize(context, configuration)
-    }
-
 //    @Provides
-//    fun provideWorkerFactory(syncWorkerFactory: SyncWorkerFactory): WorkerFactory {
-//        return syncWorkerFactory
+//    @Singleton
+//    fun provideWorkerFactory(
+//        dao: UserDao, networkUtils: NetworkUtils
+//    ): WorkerFactory {
+//        return SyncWorkerFactory(dao, networkUtils)
 //    }
+//
+//    @Provides
+//    fun provideWorkManager(
+//        @ApplicationContext context: Context,
+//        workerFactory: WorkerFactory
+//    ): WorkManager {
+//        val configuration = Configuration.Builder()
+//            .setWorkerFactory(workerFactory)
+//            .build()
+//        return WorkManager.initialize(context, configuration)
+//    }
+//
+////    @Provides
+////    fun provideWorkerFactory(syncWorkerFactory: SyncWorkerFactory): WorkerFactory {
+////        return syncWorkerFactory
+////    }
 
     @Provides
     fun provideWorkManager(@ApplicationContext context: Context): WorkManager {

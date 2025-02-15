@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.platformcommons.app.R
@@ -17,6 +19,7 @@ import com.platformcommons.app.databinding.FragmentAddUserBinding
 import com.platformcommons.app.model.users.NewUser
 import com.platformcommons.app.utils.NetworkUtils
 import com.platformcommons.app.utils.Resource
+import com.platformcommons.app.worker.SyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber

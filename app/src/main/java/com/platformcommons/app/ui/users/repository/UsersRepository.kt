@@ -47,32 +47,26 @@ class UsersRepository @Inject constructor(
     }
 
     suspend fun addUser(request: NewUser): Response<NewUserResponse> {
-//        return if (networkUtils.isNetworkAvailable()) {
-//            try {
-//                val response = apiImpl.addUser(request)
-//                response
-//            } catch (exception: Exception) {
-//                saveToLocalDatabase(request)
-//                Response.error(
-//                    500, "Internal Server Error".toResponseBody("text/plain".toMediaTypeOrNull())
-//                )
-//            }
-//        } else {
-//            saveToLocalDatabase(request)
-//            Response.error(
-//                500,
-//                "No network available, data stored locally".toResponseBody("text/plain".toMediaTypeOrNull())
-//            )
-//        }
-        saveToLocalDatabase(request)
-        return Response.error(
+        return if (networkUtils.isNetworkAvailable()) {
+            try {
+                val response = apiImpl.addUser(request)
+                response
+            } catch (exception: Exception) {
+                saveToLocalDatabase(request)
+                Response.error(
+                    500, "Internal Server Error".toResponseBody("text/plain".toMediaTypeOrNull())
+                )
+            }
+        } else {
+            saveToLocalDatabase(request)
+            Response.error(
                 500,
                 "No network available, data stored locally".toResponseBody("text/plain".toMediaTypeOrNull())
             )
+        }
     }
 
     private suspend fun saveToLocalDatabase(request: NewUser) {
-        Timber.d("SAVE IN DB ${Gson().toJson(request)}")
         val result = dao.insertUser(User(name = request.name, job = request.job))
         if (result > 0) {
             syncData()
@@ -80,24 +74,13 @@ class UsersRepository @Inject constructor(
     }
 
     private fun syncData() {
-        Timber.d("SyncData called")
-//        val syncRequest = OneTimeWorkRequestBuilder<SyncWorker>()
-//            .setConstraints(
-//                Constraints.Builder()
-//                    .setRequiredNetworkType(NetworkType.CONNECTED)  // Ensure network is available
-//                    .build()
-//            )
-//            .build()
-
-        val syncRequest = OneTimeWorkRequest.Builder(SyncWorker::class.java)
+        val syncRequest = OneTimeWorkRequestBuilder<SyncWorker>()
             .setConstraints(
                 Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)  // Ensure network is available
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
             )
             .build()
-
-        // Enqueue the sync request
         workManager.enqueue(syncRequest)
 
         // Observe work status
