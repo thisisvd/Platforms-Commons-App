@@ -21,6 +21,7 @@ import com.platformcommons.app.utils.Constants.TEMP_IMAGE_URL
 import com.platformcommons.app.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -45,6 +46,7 @@ class MoviesDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
 
+            Timber.d(args.movieId.toString())
             viewModel.getMoviesDetails(args.movieId)
             initViewModels()
         }
