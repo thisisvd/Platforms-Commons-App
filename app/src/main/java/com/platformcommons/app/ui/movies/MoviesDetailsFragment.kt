@@ -45,8 +45,6 @@ class MoviesDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-
-            Timber.d(args.movieId.toString())
             viewModel.getMoviesDetails(args.movieId)
             initViewModels()
         }
