@@ -6,7 +6,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.platformcommons.app.data.local.UserDao
 import com.platformcommons.app.data.network.users.UsersApiImpl
-import com.platformcommons.app.utils.NetworkUtils
+import com.platformcommons.app.core.NetworkUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope

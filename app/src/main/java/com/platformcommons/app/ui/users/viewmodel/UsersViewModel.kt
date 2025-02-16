@@ -8,7 +8,7 @@ import com.platformcommons.app.data.local.model.User
 import com.platformcommons.app.domain.users.Data
 import com.platformcommons.app.domain.users.NewUserResponse
 import com.platformcommons.app.data.repository.UsersRepository
-import com.platformcommons.app.utils.Resource
+import com.platformcommons.app.core.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

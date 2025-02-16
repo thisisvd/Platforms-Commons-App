@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import com.platformcommons.app.domain.movies.MoviesDetailsResponse
 import com.platformcommons.app.domain.movies.MoviesResult
 import com.platformcommons.app.data.repository.MoviesRepository
-import com.platformcommons.app.utils.Resource
+import com.platformcommons.app.core.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

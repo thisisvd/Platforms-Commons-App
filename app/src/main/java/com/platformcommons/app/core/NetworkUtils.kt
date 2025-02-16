@@ -1,4 +1,4 @@
-package com.platformcommons.app.utils
+package com.platformcommons.app.core
 
 import android.content.Context
 import android.net.ConnectivityManager

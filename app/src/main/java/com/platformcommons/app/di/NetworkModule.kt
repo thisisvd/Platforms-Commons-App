@@ -12,7 +12,7 @@ import com.platformcommons.app.ui.movies.pagination.MoviesPagingSource
 import com.platformcommons.app.ui.users.pagination.UsersPagingSource
 import com.platformcommons.app.utils.Constants.MOVIES_API_URL
 import com.platformcommons.app.utils.Constants.USER_API_URL
-import com.platformcommons.app.utils.NetworkUtils
+import com.platformcommons.app.core.NetworkUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

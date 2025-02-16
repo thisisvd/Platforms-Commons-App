@@ -6,7 +6,7 @@ import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import com.platformcommons.app.data.local.UserDao
 import com.platformcommons.app.data.network.users.UsersApiImpl
-import com.platformcommons.app.utils.NetworkUtils
+import com.platformcommons.app.core.NetworkUtils
 import javax.inject.Inject
 
 class SyncWorkerFactory @Inject constructor(

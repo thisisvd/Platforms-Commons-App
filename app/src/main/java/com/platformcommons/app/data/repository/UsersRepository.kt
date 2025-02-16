@@ -15,7 +15,9 @@ import com.platformcommons.app.domain.users.Data
 import com.platformcommons.app.domain.users.NewUserResponse
 import com.platformcommons.app.ui.users.pagination.UsersPagingSource
 import com.platformcommons.app.ui.users.pagination.UsersPagingSource.Companion.USER_LIST_TOTAL_PAGES
-import com.platformcommons.app.utils.NetworkUtils
+import com.platformcommons.app.core.NetworkUtils
+import com.platformcommons.app.core.events.RxBus
+import com.platformcommons.app.core.events.RxEvents
 import com.platformcommons.app.worker.SyncWorker
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -81,23 +83,22 @@ class UsersRepository @Inject constructor(
             if (workInfo != null) {
                 when (workInfo.state) {
                     WorkInfo.State.SUCCEEDED -> {
-                        // Handle success (e.g., show a message or update UI)
+                        // sending on sync event
+                        RxBus.publish(RxEvents.OnSyncCompleteEvent(true))
                         Timber.d("SyncWorker: Sync completed successfully")
                     }
 
                     WorkInfo.State.FAILED -> {
-                        // Handle failure (e.g., show an error message or retry)
+                        RxBus.publish(RxEvents.OnSyncCompleteEvent(false))
                         Timber.d("SyncWorker: Sync failed: ${workInfo.outputData.getString("error_message")}")
                     }
 
                     WorkInfo.State.RUNNING -> {
-                        // Sync is in progress
                         Timber.d("SyncWorker: Sync is in progress")
                     }
 
                     else -> {
-                        // Other states like CANCELED or ENQUEUED
-                        Timber.d("SyncWorker: ELSE BLOCK")
+                        Timber.d("SyncWorker: Work ENQUEUED")
                     }
                 }
             }

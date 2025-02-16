@@ -85,4 +85,9 @@ dependencies {
 
     // Timber
     implementation(libs.timber)
+
+    // rx-java
+    implementation(libs.rxandroid)
+    implementation(libs.rxjava)
+
 }

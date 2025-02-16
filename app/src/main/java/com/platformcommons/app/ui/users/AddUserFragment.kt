@@ -15,8 +15,8 @@ import com.platformcommons.app.R
 import com.platformcommons.app.data.local.model.User
 import com.platformcommons.app.databinding.FragmentAddUserBinding
 import com.platformcommons.app.ui.users.viewmodel.UsersViewModel
-import com.platformcommons.app.utils.NetworkUtils
-import com.platformcommons.app.utils.Resource
+import com.platformcommons.app.core.NetworkUtils
+import com.platformcommons.app.core.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

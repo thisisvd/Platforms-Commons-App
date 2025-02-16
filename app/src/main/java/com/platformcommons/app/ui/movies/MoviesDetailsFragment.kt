@@ -18,10 +18,9 @@ import com.platformcommons.app.databinding.FragmentMoviesDetailsBinding
 import com.platformcommons.app.domain.movies.MoviesDetailsResponse
 import com.platformcommons.app.ui.movies.viewmodel.MoviesViewModel
 import com.platformcommons.app.utils.Constants.TEMP_IMAGE_URL
-import com.platformcommons.app.utils.Resource
+import com.platformcommons.app.core.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Locale
 

@@ -1,4 +1,4 @@
-package com.platformcommons.app.utils
+package com.platformcommons.app.core
 
 sealed class Resource<T>(
     val data: T? = null, val message: String? = null
