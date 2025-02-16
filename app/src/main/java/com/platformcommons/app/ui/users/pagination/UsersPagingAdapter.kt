@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.platformcommons.app.R
 import com.platformcommons.app.databinding.UserItemUiBinding
-import com.platformcommons.app.model.users.Data
+import com.platformcommons.app.domain.users.Data
 
 class UsersPagingAdapter :
     PagingDataAdapter<Data, UsersPagingAdapter.ViewHolder>(UsersListDiffCallback()) {

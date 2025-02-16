@@ -2,12 +2,12 @@ package com.platformcommons.app.di
 
 import android.content.Context
 import com.platformcommons.app.BuildConfig
-import com.platformcommons.app.network.movies.MoviesApi
-import com.platformcommons.app.network.movies.MoviesApiHelper
-import com.platformcommons.app.network.movies.MoviesApiImpl
-import com.platformcommons.app.network.users.UsersApi
-import com.platformcommons.app.network.users.UsersApiHelper
-import com.platformcommons.app.network.users.UsersApiImpl
+import com.platformcommons.app.data.network.movies.MoviesApi
+import com.platformcommons.app.data.network.movies.MoviesApiHelper
+import com.platformcommons.app.data.network.movies.MoviesApiImpl
+import com.platformcommons.app.data.network.users.UsersApi
+import com.platformcommons.app.data.network.users.UsersApiHelper
+import com.platformcommons.app.data.network.users.UsersApiImpl
 import com.platformcommons.app.ui.movies.pagination.MoviesPagingSource
 import com.platformcommons.app.ui.users.pagination.UsersPagingSource
 import com.platformcommons.app.utils.Constants.MOVIES_API_URL
@@ -43,8 +43,8 @@ object NetworkModule {
     @Provides
     @Named("Users")
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-        Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(USER_API_URL).client(okHttpClient).build()
+        Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(USER_API_URL)
+            .client(okHttpClient).build()
 
     @Provides
     fun provideApiInterface(@Named("Users") retrofit: Retrofit): UsersApi =

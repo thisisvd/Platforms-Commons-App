@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.platformcommons.app.R
 import com.platformcommons.app.databinding.MovieItemUiBinding
-import com.platformcommons.app.model.movies.MoviesResult
+import com.platformcommons.app.domain.movies.MoviesResult
 import com.platformcommons.app.utils.Constants.TEMP_IMAGE_URL
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -18,13 +18,14 @@ class MoviesPagingAdapter :
     PagingDataAdapter<MoviesResult, MoviesPagingAdapter.ViewHolder>(MoviesListDiffCallback()) {
 
     class MoviesListDiffCallback : DiffUtil.ItemCallback<MoviesResult>() {
-        override fun areItemsTheSame(oldItem:MoviesResult, newItem:MoviesResult) = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: MoviesResult, newItem: MoviesResult) =
+            oldItem.id == newItem.id
 
         override fun areContentsTheSame(
-            oldItem:MoviesResult, newItem: MoviesResult
+            oldItem: MoviesResult, newItem: MoviesResult
         ) = oldItem == newItem
 
-        override fun getChangePayload(oldItem:MoviesResult, newItem:MoviesResult): Any? {
+        override fun getChangePayload(oldItem: MoviesResult, newItem: MoviesResult): Any? {
             if (oldItem != newItem) {
                 return newItem
             }
@@ -55,12 +56,13 @@ class MoviesPagingAdapter :
 
                     movieName.text = movie.title
 
-                    val date =
-                        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(movie.release_date)?.let {
-                            SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(
-                                it
-                            )
-                        }
+                    val date = SimpleDateFormat(
+                        "yyyy-MM-dd", Locale.getDefault()
+                    ).parse(movie.release_date)?.let {
+                        SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(
+                            it
+                        )
+                    }
                     movieReleaseDate.text = root.context.getString(R.string.release_date, date)
 
                     root.setOnClickListener {

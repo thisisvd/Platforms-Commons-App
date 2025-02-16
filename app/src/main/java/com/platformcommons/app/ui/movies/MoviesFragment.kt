@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.platformcommons.app.R
 import com.platformcommons.app.databinding.FragmentMoviesBinding
 import com.platformcommons.app.ui.movies.pagination.MoviesPagingAdapter
+import com.platformcommons.app.ui.movies.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -74,8 +75,7 @@ class MoviesFragment : Fragment() {
                         putInt("movieId", id)
                     }
                     findNavController().navigate(
-                        R.id.action_moviesFragment_to_moviesDetailsFragment,
-                        bundle
+                        R.id.action_moviesFragment_to_moviesDetailsFragment, bundle
                     )
                 }
                 addLoadStateListener { loadState ->

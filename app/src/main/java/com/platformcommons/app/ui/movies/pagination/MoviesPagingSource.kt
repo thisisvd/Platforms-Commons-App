@@ -2,9 +2,8 @@ package com.platformcommons.app.ui.movies.pagination
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.platformcommons.app.network.movies.MoviesApiImpl
-import com.platformcommons.app.model.movies.MoviesResult
-import timber.log.Timber
+import com.platformcommons.app.data.network.movies.MoviesApiImpl
+import com.platformcommons.app.domain.movies.MoviesResult
 import javax.inject.Inject
 
 class MoviesPagingSource @Inject constructor(

@@ -15,7 +15,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.snackbar.Snackbar
 import com.platformcommons.app.R
 import com.platformcommons.app.databinding.FragmentMoviesDetailsBinding
-import com.platformcommons.app.model.movies.MoviesDetailsResponse
+import com.platformcommons.app.domain.movies.MoviesDetailsResponse
+import com.platformcommons.app.ui.movies.viewmodel.MoviesViewModel
 import com.platformcommons.app.utils.Constants.TEMP_IMAGE_URL
 import com.platformcommons.app.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint

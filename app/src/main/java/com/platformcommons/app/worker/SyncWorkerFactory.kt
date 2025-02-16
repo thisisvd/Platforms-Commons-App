@@ -5,7 +5,7 @@ import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import com.platformcommons.app.data.local.UserDao
-import com.platformcommons.app.network.users.UsersApiImpl
+import com.platformcommons.app.data.network.users.UsersApiImpl
 import com.platformcommons.app.utils.NetworkUtils
 import javax.inject.Inject
 

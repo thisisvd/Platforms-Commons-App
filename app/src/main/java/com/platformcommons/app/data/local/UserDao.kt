@@ -1,10 +1,10 @@
 package com.platformcommons.app.data.local
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.platformcommons.app.data.local.model.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao

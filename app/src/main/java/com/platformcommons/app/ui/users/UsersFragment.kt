@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.platformcommons.app.R
 import com.platformcommons.app.databinding.FragmentUsersBinding
 import com.platformcommons.app.ui.users.pagination.UsersPagingAdapter
+import com.platformcommons.app.ui.users.viewmodel.UsersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

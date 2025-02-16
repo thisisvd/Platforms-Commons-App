@@ -2,13 +2,13 @@ package com.platformcommons.app.ui.users.pagination
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.platformcommons.app.network.users.UsersApiImpl
-import com.platformcommons.app.model.users.Data
+import com.platformcommons.app.data.network.users.UsersApiImpl
+import com.platformcommons.app.domain.users.Data
 import javax.inject.Inject
 
 class UsersPagingSource @Inject constructor(
     private val apiImpl: UsersApiImpl
-): PagingSource<Int, Data>() {
+) : PagingSource<Int, Data>() {
 
     companion object {
         var USER_LIST_TOTAL_PAGES = 2
