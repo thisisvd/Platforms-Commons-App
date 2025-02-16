@@ -86,13 +86,15 @@ class AddUserFragment : Fragment() {
                         }
 
                         is Resource.Error -> {
-                            response.message?.let { message ->
+                            response.message?.let {
                                 progressCircular.visibility = View.GONE
-                                val error =
-                                    if (!networkUtils.isNetworkAvailable()) "Saved locally due to No Network!" else "Error Occurred"
-                                Snackbar.make(
-                                    root, error, Snackbar.LENGTH_SHORT
-                                ).show()
+                                if (!networkUtils.isNetworkAvailable()) {
+                                    Snackbar.make(
+                                        root,
+                                        "Saved locally due to No Network!",
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
 
