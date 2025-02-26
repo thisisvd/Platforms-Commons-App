@@ -21,3 +21,14 @@ You can check the application architecture, connectivity, etc. in the github pro
   - The movie details screen contains the poster, title, release date, and description fetched from the API. Used navargs to pass movieId from the MoviesList screen to the MoviesDetails screen.
 <br/>
 The app has Dagger-Hilt implemented and has 3 modules named NetworkModule, DatabaseModule, and WorkerModule. Also contains SyncFactory and SyncWorker classes for the implementation and used flow of components between them. For further details, one can check the GitHub project and the application present in the global support folder.
+
+## Tech-Stack:
+ - `Programming Language:` Kotlin
+ - `Architecture:` MVVM
+ - `Dependency Injection:` Hilt/Dagger
+ - `Networking:` Retrofit with best practices
+ - `Local Storage:` Room Database
+ - `Offline Handling:` WorkManager for syncing data when the device regains internet connectivity
+ - `Pagination:` Use Paging 3 for efficient data loading
+ - `Asynchronous Data Handling:` Used Kotlin Flow for reactive UI updates
+ - `Image Loading:` Glide
